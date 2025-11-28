@@ -77,7 +77,7 @@ stringData:" > k8s/node-app-secret.yaml
                     clusterName: env.CLUSTER_NAME,
                     location: env.LOCATION,
 
-                    manifestPattern: 'k8s/deployment.yml',
+                    manifestPattern: 'k8s/*.yml',
 
                     credentialsId: env.CREDENTIALS_ID,
                     verifyDeployments: true
