@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'google/cloud-sdk:latest'
+            args '-u root'
+        }
+    }
 
     environment {
         DOCKER_LOGIN = credentials('dockerhub-login')
