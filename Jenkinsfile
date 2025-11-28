@@ -56,6 +56,7 @@ stringData:" > k8s/node-app-secret.yaml
                         echo "  $key: \\"$esc_value\\"" >> k8s/node-app-secret.yaml
                       fi
                     done < "$ENV_FILE_PATH"
+                    kubectl apply -f k8s/node-app-secret.yaml
 
                     '''
                 }
