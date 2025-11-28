@@ -37,6 +37,17 @@ pipeline {
                 sh "docker compose push"
             }
         }
+        stage('Prepare Secret File') {
+            steps {
+                withCredentials([file(credentialsId: 'k8s-secret-file', variable: 'SECRET_FILE')]) {
+                    sh """
+                        echo "Copying secret file into repo directory"
+                        cp "$SECRET_FILE" k8s/node-app-secret.yaml
+                    """
+                }
+            }
+}
+}
 
         stage('Deploy to GKE') {
             when {
@@ -49,7 +60,7 @@ pipeline {
                     clusterName: env.CLUSTER_NAME,
                     location: env.LOCATION,
 
-                    manifestPattern: '*.yaml',
+                    manifestPattern: 'k8s/deployment.yaml','k8s/node-app-secret.yaml',
 
                     credentialsId: env.CREDENTIALS_ID,
                     verifyDeployments: true
