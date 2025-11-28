@@ -49,7 +49,7 @@ pipeline {
                     clusterName: env.CLUSTER_NAME,
                     location: env.LOCATION,
 
-                    manifestPattern: 'k8s/*.yaml',
+                    manifestPattern: '*.yaml',
 
                     credentialsId: env.CREDENTIALS_ID,
                     verifyDeployments: true
