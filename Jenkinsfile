@@ -48,7 +48,7 @@ kind: Secret
 metadata:
   name: node-app-secret
 type: Opaque
-stringData:" > kubernetes/node-app-secret.yaml
+stringData:" > k8s/node-app-secret.yaml
 
                     while IFS='=' read -r key value; do
                       if [ -n "$key" ]; then
