@@ -1,0 +1,158 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask
+  labels:
+    app: flask
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+      - name: flask
+        image: docker.io/s0obang/sswu_sonsaekim-flask:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: FLASK_ENV
+          value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask
+spec:
+  type: ClusterIP
+  selector:
+    app: flask
+  ports:
+  - port: 5000
+    targetPort: 5000
+    name: http
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node
+  labels:
+    app: node
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: node
+  template:
+    metadata:
+      labels:
+        app: node
+    spec:
+      containers:
+      - name: node
+        image: docker.io/s0obang/sswu_sonsaekim-node:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODEMAILER_USER
+          valueFrom:
+            secretKeyRef:
+              name: node-app-secret
+              key: NODEMAILER_USER
+        - name: NODEMAILER_PASS
+          valueFrom:
+            secretKeyRef:
+              name: node-app-secret
+              key: NODEMAILER_PASS
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: node-app-secret
+              key: DB_USER
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: node-app-secret
+              key: DB_PASS
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: node-app-secret
+              key: DB_NAME
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: node-app-secret
+              key: DB_HOST
+
+        - name: REDIS_HOST
+          value: "redis"
+        - name: REDIS_PORT
+          value: "6379"
+
+        - name: DB_PORT
+          value: "3306"
+
+        - name: FLASK_NAME
+          value: "flask"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node
+spec:
+  type: LoadBalancer
+  selector:
+    app: node
+  ports:
+  - port: 80
+    targetPort: 3000
+    name: http
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - mountPath: /data
+          name: redis-data
+      volumes:
+      - name: redis-data
+        emptyDir: {}
+  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  type: ClusterIP
+  selector:
+    app: redis
+  ports:
+  - port: 6379
+    targetPort: 6379
+    name: tcp
