@@ -5,3 +5,5 @@ opencv-python
 mediapipe
 flask
 flask_cors
+tensorflow
+opencv-python-headless
