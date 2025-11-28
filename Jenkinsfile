@@ -37,14 +37,15 @@ pipeline {
                 sh "docker compose push"
             }
         }
-        stage('Prepare Secret File') {
+        stage('Inline Secret into Deployment') {
             steps {
-                sh "chmod -R 777 k8s || true"
                 withCredentials([file(credentialsId: 'k8s-secret-file', variable: 'SECRET_FILE')]) {
                     sh """
-                        echo "Copying secret file into repo directory"
-                        cp "$SECRET_FILE" k8s/node-app-secret.yaml
-                        chown jenkins:jenkins k8s/node-app-secret.yaml || true
+                        echo 'Appending secret to deployment.yaml'
+
+                        echo "\\n---" >> k8s/deployment.yaml
+
+                        cat "$SECRET_FILE" >> k8s/deployment.yaml
                     """
                 }
             }
@@ -61,7 +62,7 @@ pipeline {
                     clusterName: env.CLUSTER_NAME,
                     location: env.LOCATION,
 
-                    manifestPattern: 'k8s/*.yaml',
+                    manifestPattern: 'deployment.yaml',
 
                     credentialsId: env.CREDENTIALS_ID,
                     verifyDeployments: true
