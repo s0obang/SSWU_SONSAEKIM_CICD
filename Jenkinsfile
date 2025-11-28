@@ -44,7 +44,6 @@ pipeline {
 
                 sh '''
                     mkdir -p k8s
-
                     echo "apiVersion: v1
 kind: Secret
 metadata:
@@ -52,18 +51,17 @@ metadata:
 type: Opaque
 stringData:" > k8s/node-app-secret.yaml
 
-                while IFS='=' read -r key value || [ -n "$key" ]; do
+    while IFS='=' read -r key value || [ -n "$key" ]; do
+        case "$key" in
+            ""|*[![:space:]]*) ;;   
+            *) continue ;; 
+        esac
 
-                    if [ -z "$key" ] || [[ "$key" =~ ^[[:space:]]+$ ]]; then
-                        continue
-                    fi
+        esc_value=$(printf "%s" "$value" | sed 's/"/\\"/g')
+        echo "  $key: \\"$esc_value\\"" >> k8s/node-app-secret.yaml
 
-                    esc_value=$(printf "%s" "$value" | sed 's/"/\\"/g')
-
-                    echo "  $key: \\"$esc_value\\"" >> k8s/node-app-secret.yaml
-
-                done < "$ENV_FILE_PATH"
-            '''
+    done < "$ENV_FILE_PATH"
+'''
         }
     }
 }
