@@ -53,7 +53,7 @@ stringData:" > kubernetes/node-app-secret.yaml
                     while IFS='=' read -r key value; do
                       if [ -n "$key" ]; then
                         esc_value=$(printf "%s" "$value" | sed 's/"/\\"/g')
-                        echo "  $key: \\"$esc_value\\"" >> kubernetes/node-app-secret.yaml
+                        echo "  $key: \\"$esc_value\\"" >> k8s/node-app-secret.yaml
                       fi
                     done < "$ENV_FILE_PATH"
 
@@ -73,7 +73,7 @@ stringData:" > kubernetes/node-app-secret.yaml
                     clusterName: env.CLUSTER_NAME,
                     location: env.LOCATION,
 
-                    manifestPattern: 'kubernetes/*.yml',
+                    manifestPattern: 'k8s/*.yml',
 
                     credentialsId: env.CREDENTIALS_ID,
                     verifyDeployments: true
