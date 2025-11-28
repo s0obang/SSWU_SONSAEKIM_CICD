@@ -38,34 +38,6 @@ pipeline {
             }
         }
 
-    stage('Generate Kubernetes Secret') {
-        steps {
-            withCredentials([file(credentialsId: 'env-file', variable: 'ENV_FILE_PATH')]) {
-
-                sh '''
-                    mkdir -p k8s
-                    echo "apiVersion: v1
-kind: Secret
-metadata:
-  name: node-app-secret
-type: Opaque
-stringData:" > k8s/node-app-secret.yaml
-
-    while IFS='=' read -r key value || [ -n "$key" ]; do
-        case "$key" in
-            ""|*[![:space:]]*) ;;   
-            *) continue ;; 
-        esac
-
-        esc_value=$(printf "%s" "$value" | sed 's/"/\\"/g')
-        echo "  $key: \\"$esc_value\\"" >> k8s/node-app-secret.yaml
-
-    done < "$ENV_FILE_PATH"
-'''
-        }
-    }
-}
-
         stage('Deploy to GKE') {
             when {
                 branch 'main'
