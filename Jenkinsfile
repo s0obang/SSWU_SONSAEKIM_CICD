@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'google/cloud-sdk:latest'
-            args '-u root'
-        }
-    }
+    agent any
 
     environment {
         DOCKER_LOGIN = credentials('dockerhub-login')
@@ -91,4 +86,5 @@ stringData:" > k8s/node-app-secret.yaml
         success { echo "SUCCESS" }
         failure { echo "FAILED" }
     }
+    
 }
