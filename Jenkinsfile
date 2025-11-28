@@ -59,7 +59,7 @@ pipeline {
                     clusterName: env.CLUSTER_NAME,
                     location: env.LOCATION,
 
-                    manifestPattern: 'k8s/deployment.yaml','k8s/node-app-secret.yaml',
+                    manifestPattern: 'k8s/deployment.yaml,k8s/node-app-secret.yaml',
 
                     credentialsId: env.CREDENTIALS_ID,
                     verifyDeployments: true
