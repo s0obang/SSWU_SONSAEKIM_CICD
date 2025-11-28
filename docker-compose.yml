@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: sswu_sonsaekim-node
+    image: s0obang/sswu_sonsaekim-node
     container_name: sswu_sonsaekim-node
     ports:
       - "3000:3000"
@@ -16,23 +16,11 @@ services:
     build:
       context: ./flask_server
       dockerfile: ./Dockerfile
-    image: sswu_sonsaekim-flask
+    image: s0obang/sswu_sonsaekim-flask
     container_name: sswu_sonsaekim-flask
     ports:
       - "5000:5000"
     depends_on:
       - redis
     restart: always
-
-  redis:
-    image: redis:7
-    container_name: sswu_sonsaekim-redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis-data:/data
-    restart: always
-
-volumes:
-  redis-data:
 
