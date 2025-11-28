@@ -44,6 +44,7 @@ pipeline {
                     sh """
                         echo "Copying secret file into repo directory"
                         cp "$SECRET_FILE" k8s/node-app-secret.yaml
+                        chown jenkins:jenkins k8s/node-app-secret.yaml || true
                     """
                 }
             }
