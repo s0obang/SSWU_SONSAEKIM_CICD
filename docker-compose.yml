@@ -8,7 +8,6 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - redis
       - flask
     restart: always
 
@@ -20,7 +19,5 @@ services:
     container_name: sswu_sonsaekim-flask
     ports:
       - "5000:5000"
-    depends_on:
-      - redis
     restart: always
 
