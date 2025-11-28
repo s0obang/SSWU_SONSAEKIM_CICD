@@ -39,6 +39,7 @@ pipeline {
         }
         stage('Prepare Secret File') {
             steps {
+                sh "chmod -R 777 k8s || true"
                 withCredentials([file(credentialsId: 'k8s-secret-file', variable: 'SECRET_FILE')]) {
                     sh """
                         echo "Copying secret file into repo directory"
