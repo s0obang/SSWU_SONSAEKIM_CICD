@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: flask
-        image: docker.io/s0obang/sswu_sonsaekim-flask:latest
+        image: docker.io/s0obang/sswu_sonsaekim-flask:__VERSION__
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
@@ -55,7 +55,7 @@ spec:
     spec:
       containers:
       - name: node
-        image: docker.io/s0obang/sswu_sonsaekim-node:latest
+        image: docker.io/s0obang/sswu_sonsaekim-node:__VERSION__
         imagePullPolicy: Always
         ports:
         - containerPort: 3000

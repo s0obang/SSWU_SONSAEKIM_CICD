@@ -40,13 +40,13 @@ pipeline {
 
         stage('Build Images') {
             steps {
-                sh "docker compose build --no-cache"
+                sh "BUILD_NUMBER=${env.BUILD_NUMBER} docker compose build --no-cache"
             }
         }
 
         stage('Push Images') {
             steps {
-                sh "docker compose push"
+                sh "BUILD_NUMBER=${env.BUILD_NUMBER} docker compose push"
             }
         }
         stage('Inline Secret into Deployment') {
@@ -60,6 +60,14 @@ pipeline {
                         cat "$SECRET_FILE" >> k8s/deployment.yaml
                     """
                 }
+            }
+        }
+        stage('Render Deployment') {
+            steps {
+                sh """
+                    export BUILD_NUMBER=${env.BUILD_NUMBER}
+                    envsubst < k8s/deployment.yaml.template > k8s/deployment.yaml
+                """
             }
         }
 
