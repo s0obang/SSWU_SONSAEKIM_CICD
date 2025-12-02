@@ -55,6 +55,7 @@ spec:
       containers:
       - name: node
         image: docker.io/s0obang/sswu_sonsaekim-node:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         env:
