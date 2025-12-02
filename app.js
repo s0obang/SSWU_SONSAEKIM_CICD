@@ -8,7 +8,8 @@ const { createClient } = require('redis');
 const app = express();
 
 app.set('port', process.env.PORT || 3000);
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const redisClient = createClient({
   socket: {
     host: process.env.REDIS_HOST || "redis",  
