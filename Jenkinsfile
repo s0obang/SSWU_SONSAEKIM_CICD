@@ -40,7 +40,7 @@ pipeline {
 
         stage('Build Images') {
             steps {
-                sh "BUILD_NUMBER=${env.BUILD_NUMBER} docker compose build --no-cache"
+                sh "BUILD_NUMBER=${env.BUILD_NUMBER} docker compose build"
             }
         }
 
