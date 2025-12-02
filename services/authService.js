@@ -103,6 +103,8 @@ exports.showLoginPage = (req, res) => {
 
 exports.loginProcess = async (req, res) => {
   const { email, password } = req.body;
+  console.log("req.body:", req.body);
+  console.log("email:", email, "password:", password);
 
   try {
     const user = await User.findOne({ where: { email } });
