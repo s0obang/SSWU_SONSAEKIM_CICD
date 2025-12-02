@@ -162,3 +162,4 @@ spec:
     targetPort: 6379
     name: tcp
 
+
