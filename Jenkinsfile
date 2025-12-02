@@ -11,6 +11,17 @@ pipeline {
     }
 
     stages {
+        stage('CI Gate') {
+            when {
+                anyOf {
+                    changeRequest() 
+                    branch 'main'
+                }
+            }
+            steps {
+                echo "CI allowed"
+            }
+        }
 
         stage('Checkout') {
             steps {
