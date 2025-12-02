@@ -65,7 +65,7 @@ pipeline {
         stage('Render Deployment') {
             steps {
                 sh """
-                    sed 's#\${BUILD_NUMBER}#${env.BUILD_NUMBER}#g' k8s/deployment.yaml.template > k8s/deployment.yaml
+                    sed "s#\\\\\\\${BUILD_NUMBER}#${env.BUILD_NUMBER}#g" k8s/deployment.yaml.template > k8s/deployment.yaml
                 """
             }
         }
