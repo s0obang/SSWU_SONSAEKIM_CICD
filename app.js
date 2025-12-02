@@ -19,13 +19,13 @@ const redisClient = createClient({
 
 redisClient.connect().catch(console.error);
 
-//app.set('trust proxy', 1);
+app.set('trust proxy', 1);
 
 app.use(cookieParser(process.env.SESSION_SECRET || 'mySecretKey'));
 
 app.use(
   session({
-    //store: new RedisStore({ client: redisClient }),
+    store: new RedisStore({ client: redisClient }),
     secret: process.env.SESSION_SECRET || 'mySecretKey',
     resave: false,
     saveUninitialized: false,
