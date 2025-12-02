@@ -35,7 +35,7 @@ spec:
   - port: 5000
     targetPort: 5000
     name: http
-
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -88,6 +88,11 @@ spec:
             secretKeyRef:
               name: node-app-secret
               key: DB_HOST
+        - name: SESSION_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: node-app-secret
+              key: SESSION_SECRET 
 
         - name: REDIS_HOST
           value: "redis"
