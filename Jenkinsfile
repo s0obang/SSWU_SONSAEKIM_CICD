@@ -64,9 +64,17 @@ pipeline {
         }
         stage('Render Deployment') {
             steps {
-                sh """
-                    sed "s#__BUILD__#${env.BUILD_NUMBER}#g" deployment.yaml.template > k8s/deployment.yaml
-                """
+                sh '''
+                    echo "BUILD_NUMBER in shell = $BUILD_NUMBER"
+                    echo "=== TEMPLATE ==="
+                    cat deployment.yaml.template
+
+                    # 여기서 진짜로 치환 + 파일로 저장
+                    sed "s#__BUILD__#$BUILD_NUMBER#g" deployment.yaml.template > k8s/deployment.yaml
+
+                    echo "=== RENDERED k8s/deployment.yaml ==="
+                    cat k8s/deployment.yaml
+                '''
             }
         }
 
