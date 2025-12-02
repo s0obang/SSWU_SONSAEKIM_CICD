@@ -1,1 +1,1 @@
-        image: docker.io/s0obang/sswu_sonsaekim-flask:$__BUILD__
+        image: docker.io/s0obang/sswu_sonsaekim-flask:__BUILD__
