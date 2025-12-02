@@ -66,6 +66,7 @@ pipeline {
             steps {
                 sh """
                     sed -i "s#sswu_sonsaekim-flask:.*#sswu_sonsaekim-flask:${BUILD_NUMBER}#g" k8s/deployment.yaml
+                    sed -i "s#sswu_sonsaekim-node:.*#sswu_sonsaekim-node:${BUILD_NUMBER}#g" k8s/deployment.yaml
                 """
             }
         }
