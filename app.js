@@ -25,7 +25,7 @@ app.use(cookieParser(process.env.SESSION_SECRET || 'mySecretKey'));
 
 app.use(
   session({
-    store: new RedisStore({ client: redisClient }),
+    //store: new RedisStore({ client: redisClient }),
     secret: process.env.SESSION_SECRET || 'mySecretKey',
     resave: false,
     saveUninitialized: false,
